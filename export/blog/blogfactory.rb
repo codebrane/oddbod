@@ -55,7 +55,9 @@ class BlogFactory
           community_ident = access_mode.gsub(/community/, "")
           comm_result =  @db.query("select name from #{@db.table_prefix}users where ident = '#{community_ident}'")
           comm = @db.get_first_result(comm_result)
-          access_mode = "community::#{comm[0]}"
+          if (comm != nil)
+            access_mode = "community::#{comm[0]}"
+          end
         end
         
         # Add the blog post...
