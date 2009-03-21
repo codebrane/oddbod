@@ -8,10 +8,14 @@
   * @copyright codeBrane 2009
   * @link http://codebrane.com/blog/
   */
+global $CONFIG;
+
+require_once($CONFIG->pluginspath . "oddbod/util/utils.php");
 
 function oddbod_init() {
 	global $CONFIG;
 	add_widget_type('oddbod', "Oddbod", "Oddbod Migrator");
+	register_notification_handler('email', 'oddbod_notify_handler');
 }
 
 register_elgg_event_handler('init', 'system', 'oddbod_init');
