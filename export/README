@@ -1,0 +1,62 @@
+Oddbod!
+=======
+
+o Introduction
+o Requirements
+o Usage
+o More information
+
+Introduction
+============
+Welcome to the Oddbod! exporter side of the Oddbod Migration System (OMS). This set of scripts
+will export various aspects of an Elgg 0.9.x database as modified openData Definition (ODD)
+files. This set of scripts use the Oddbod ODD Profile, which is just a fancy way of saying they
+add various attributes to ODD nodes that are not in the current ODD schema. They do this to
+support the Oddbod Onion Approach to Data Migration (OOADM!). Oddbod will export the Elgg data
+in the following sequence:
+
+- users and their icons
+- user profiles
+- friend network
+- communities
+- community memberships
+- user blogs and their postings
+- community blogs and their postings
+- user files
+- community files
+
+Each ODD file can then be imported into Elgg 1.5 using the Oddbod import plugin
+
+Requirements
+============
+The Oddbod exporter needs to be run on the same server as the Elgg 0.9.x instance
+as it needs access to the icons and profile photos.
+To use the Oddbod exporter you need Ruby, at least version 1.9.1p0 as previous versions
+have a REXML issue which prevents data being written to XML files in some circumstances.
+Oddbod outputs human readable ODD files so you can check what's going on.
+You also need the appropriate database module for Ruby. Oddbod has been tested with MySQL:
+- download MySQL Ruby module from: http://rubyforge.org/frs/?group_id=4550
+- use the following to build it:
+  sudo ruby extconf.rb --with-mysql-dir=/usr/local/mysql
+    you may or may not need to use sudo, depending how your mysql is installed.
+  make
+  make install
+
+Usage
+=====
+First configure Oddbod. Open the file config.rb and change the various bits 'n bobs to suit
+your environment. Then run Oddbod in the following sequence with the suggested output files:
+
+ruby oddbod.rb users oddfiles/09_users.xml
+ruby oddbod.rb user-profiles oddfiles/09_profiles_users.xml
+ruby oddbod.rb communities oddfiles/09_communities.xml
+ruby oddbod.rb community-profiles oddfiles/09_profiles_communities.xml
+ruby oddbod.rb user-blogs oddfiles/09_blogs_users.xml
+ruby oddbod.rb community-blogs oddfiles/09_blogs_communities.xml
+ruby oddbod.rb friends oddfiles/09_friends.xml
+
+More information
+================
+openData Definition (ODD) http://www.opendd.net/
+Oddbod http://codebrane.com/blog/
+Email suggestions to alistair@codebrane.com
