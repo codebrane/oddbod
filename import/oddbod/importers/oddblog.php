@@ -138,18 +138,19 @@ class ODDBlog {
             // Have to alter the db directly to change the posted time
             $db_link = get_db_link("write");
             if ($this->mode == MODE_COMMUNITY_BLOGS) {
+            	// This changes the date/time on the display in the community
               $query  = "update {$CONFIG->dbprefix}annotations ";
               $query .= "set time_created = '{$time}' ";
               $query .= "where entity_guid = '{$blog->getGUID()}'";
+              execute_query($query, $db_link);
             }
-            else {
-	            $query  = "update {$CONFIG->dbprefix}entities ";
-	            $query .= "set time_created = '{$time}', time_updated = '{$time}' ";
-	            $query .= "where guid = '{$blog->getGUID()}' ";
-	            $query .= "and subtype = '4'";
-            }
+
+            // This changes the date/time on the main blog
+						$query  = "update {$CONFIG->dbprefix}entities ";
+						$query .= "set time_created = '{$time}', time_updated = '{$time}' ";
+						$query .= "where guid = '{$blog->getGUID()}'";
             execute_query($query, $db_link);
-            
+                        
             // Add any comments
             if ($comments_count > 0) {
             	foreach ($comments as $comment) {
