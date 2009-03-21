@@ -59,4 +59,23 @@ function find_group_by_name($group_name) {
     return false;
   }
 }
+
+/**
+ * Blocks outgoing emails. This is useful when the Friend network is imported as otherwise
+ * users would be hit with multiple emails when their networks are built up. You might not
+ * want this if you're testing a migration.
+ * If you want emails to be sent, disable the registration of this function in start.php,
+ * then disable/enable the plugin to reload the config.
+ * 
+ * @param $from
+ * @param $to
+ * @param $subject
+ * @param $message
+ * @param $params
+ * @return unknown_type
+ */
+function oddbod_notify_handler(ElggEntity $from, ElggUser $to, $subject, $message, array $params = NULL) {
+  oddlog("blocking email from {$from->name} to $to->name");
+  return;
+}
 ?>
