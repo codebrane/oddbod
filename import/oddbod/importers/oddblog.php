@@ -27,58 +27,58 @@ class ODDBlog {
     global $CONFIG;
     
     $xpath = new DOMXpath($odddoc);
-	$entity_elements = $xpath->query("//entity");
-	if (!is_null($entity_elements)) {
-	  foreach ($entity_elements as $entity_element) {
-	    $valid = true;
-	    $title = "";
-	    $body = "";
-	    $tags = "";
-	    $time = "";
-	    $username = "";
-	    $access = ACCESS_PRIVATE;
-	    $community_name = "";
-	    $comments_count = 0;
-	    $comments = array();
-	    
-	    $metadata_for_entity_elements = $xpath->query("//metadata[@entity_uuid='".$entity_element->getAttribute("uuid")."']");
-	    foreach ($metadata_for_entity_elements as $metadata_for_entity_element) {
-	      if ($metadata_for_entity_element->getAttribute("name") == "community-name") {
-	        $community_name = clean($metadata_for_entity_element->nodeValue);
-	      }
-          if ($metadata_for_entity_element->getAttribute("name") == "post-owner") {
-            $username = clean($metadata_for_entity_element->nodeValue);
-            if (!get_user_by_username($username)) {
-              // Don't post to a non existent user's blog
-              $valid = false;
-            }
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "title") {
-            $title = clean($metadata_for_entity_element->nodeValue);
-            if ($title == "") {
-            	$title = "UNTITLED";
-            }
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "body") {
-            $body = clean($metadata_for_entity_element->nodeValue);
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "tags") {
-            $tags = clean($metadata_for_entity_element->nodeValue);
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "time") {
-            $time = clean($metadata_for_entity_element->nodeValue);
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "access") {
-            $access = clean($metadata_for_entity_element->nodeValue);
-          }
-          if ($metadata_for_entity_element->getAttribute("name") == "comment") {
-            $comments[$comments_count] = clean($metadata_for_entity_element->nodeValue);
-            $comments_count++;
-          }
-	    } // foreach ($metadata_for_entity_elements as $metadata_for_entity_element)
-	    
-	    // Don't import bum blog posts
-	    if ($valid) {
+		$entity_elements = $xpath->query("//entity");
+		if (!is_null($entity_elements)) {
+		  foreach ($entity_elements as $entity_element) {
+		    $valid = true;
+		    $title = "";
+		    $body = "";
+		    $tags = "";
+		    $time = "";
+		    $username = "";
+		    $access = ACCESS_PRIVATE;
+		    $community_name = "";
+		    $comments_count = 0;
+		    $comments = array();
+		    
+		    $metadata_for_entity_elements = $xpath->query("//metadata[@entity_uuid='".$entity_element->getAttribute("uuid")."']");
+		    foreach ($metadata_for_entity_elements as $metadata_for_entity_element) {
+		      if ($metadata_for_entity_element->getAttribute("name") == "community-name") {
+		        $community_name = clean($metadata_for_entity_element->nodeValue);
+		      }
+	          if ($metadata_for_entity_element->getAttribute("name") == "post-owner") {
+	            $username = clean($metadata_for_entity_element->nodeValue);
+	            if (!get_user_by_username($username)) {
+	              // Don't post to a non existent user's blog
+	              $valid = false;
+	            }
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "title") {
+	            $title = clean($metadata_for_entity_element->nodeValue);
+	            if ($title == "") {
+	            	$title = "UNTITLED";
+	            }
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "body") {
+	            $body = clean($metadata_for_entity_element->nodeValue);
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "tags") {
+	            $tags = clean($metadata_for_entity_element->nodeValue);
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "time") {
+	            $time = clean($metadata_for_entity_element->nodeValue);
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "access") {
+	            $access = clean($metadata_for_entity_element->nodeValue);
+	          }
+	          if ($metadata_for_entity_element->getAttribute("name") == "comment") {
+	            $comments[$comments_count] = clean($metadata_for_entity_element->nodeValue);
+	            $comments_count++;
+	          }
+		    } // foreach ($metadata_for_entity_elements as $metadata_for_entity_element)
+		    
+		    // Don't import bum blog posts
+		    if ($valid) {
   	      if ($body != "") {
             $blog = new ElggObject();
             if ($this->mode == MODE_COMMUNITY_BLOGS) {
@@ -104,19 +104,6 @@ class ODDBlog {
             if (array_key_exists($access, $this->blog_access_mode)) {
             	$blog->access_id = $this->blog_access_mode[$access];
             }
-            /*
-            // Is the access community based? community::Community Name
-            else if (strstr($access, "::")) {
-            	$cname = str_replace("community::", "", $access);
-            	$owner_community = find_group_by_name($cname);
-            	if (!$owner_community) {
-            		// If the community doesn't exist, make the post private
-            		$blog->access_id = $this->blog_access_mode["PRIVATE"];
-            	}
-            	else {
-            	}
-            }
-            */
             else {
             	$blog->access_id = $this->blog_access_mode["PRIVATE"];
             }
@@ -197,9 +184,9 @@ class ODDBlog {
             
             oddlog("CREATE POST: ".$owner->name." ".$container->username." -> ".$container->name);
   	      } // if (($title != "") && ($body != ""))
-	    } // if ($valid)
-	  } // foreach ($entity_elements as $entity_element)
-	} // if (!is_null($entity_elements))
+		    } // if ($valid)
+		  } // foreach ($entity_elements as $entity_element)
+		} // if (!is_null($entity_elements))
   } // public function import($odddoc)
 }
 ?>
