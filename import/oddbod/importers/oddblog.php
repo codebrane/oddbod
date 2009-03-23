@@ -164,7 +164,13 @@ class ODDBlog {
             			continue;
             		}
             		oddlog("comment from ".$comment_owner->getGUID(). " -> ".$parts[1]);
-            		$blog->annotate('generic_comment', $comment_text_marked, $blog->access_id, $comment_owner->getGUID());
+            		if ($this->mode == MODE_COMMUNITY_BLOGS) {
+            			$comment_type = "group_topic_post";
+            		}
+            		else {
+            			$comment_type = "generic_comment";
+            		}
+            		$blog->annotate($comment_type, $comment_text_marked, $blog->access_id, $comment_owner->getGUID());
             		
             		// Find the comment in the database to update its time
             		$db_link = get_db_link("read");
