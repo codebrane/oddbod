@@ -14,12 +14,14 @@ require 'friend/friendfactory'
 require 'icon/iconfactory'
 require 'community/communityfactory'
 require 'blog/blogfactory'
+require 'member/memberfactory'
 require 'generators/userbod'
 require 'generators/profilebod'
 require 'generators/friendbod'
 require 'generators/iconbod'
 require 'generators/communitybod'
 require 'generators/blogbod'
+require 'generators/membershipbod'
 
 if (ARGV.length != 2)
   puts "Usage:"
@@ -112,6 +114,14 @@ if ((mode == "user-blogs") || (mode == "community-blogs"))
   blog_bod.odd
   blog_bod.odd_file(output_file)
   puts "processed " + blog_bod.how_many.to_s + " blogs"
+end
+
+if (mode == "communities-members")
+  member_factory = MemberFactory.new(db, elgg_users, elgg_comms)
+  bod = MembershipBod.new(member_factory.load_members)
+  bod.odd
+  bod.odd_file(output_file)
+  puts "processed " + bod.how_many.to_s + " memberships"
 end
 
 if (mode == "icons")
