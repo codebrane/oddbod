@@ -8,6 +8,8 @@ class GenericBod
   PERSON_CLASS = "person"
   COMMUNITY_CLASS = "community"
   BLOG_POST_CLASS = "blogpost"
+  RELATIONSHIP_FRIEND_CLASS = "hasfriend"
+  RELATIONSHIP_MEMBER_CLASS = "ismemberof"
   
   TYPE_USER = "user"
   TYPE_PROFILE_USERS = "profile-users"
@@ -16,6 +18,7 @@ class GenericBod
   TYPE_COMMUNITIY = "community"
   TYPE_USER_BLOGS = "user-blogs"
   TYPE_COMMUNITY_BLOGS = "community-blogs"
+  TYPE_MEMBERSHIPS = "memberships"
   
   def initialize(type)
     @odd_doc = REXML::Document.new()
