@@ -7,6 +7,7 @@ require_once($CONFIG->pluginspath . "oddbod/importers/oddfriend.php");
 require_once($CONFIG->pluginspath . "oddbod/importers/oddcommunity.php");
 require_once($CONFIG->pluginspath . "oddbod/importers/oddblog.php");
 require_once($CONFIG->pluginspath . "oddbod/importers/oddmembership.php");
+require_once($CONFIG->pluginspath . "oddbod/importers/oddfile.php");
 
 /**
  * This is the main Oddbod importer action class
@@ -57,6 +58,10 @@ class ODDImport {
         
       case "memberships":
         $this->import_class = new ODDMembership();
+        break;
+        
+      case "files":
+        $this->import_class = new ODDFile();
         break;
     }
   }
