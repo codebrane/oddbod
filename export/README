@@ -55,6 +55,7 @@ ruby oddbod.rb user-blogs oddfiles/09_blogs_users.xml
 ruby oddbod.rb community-blogs oddfiles/09_blogs_communities.xml
 ruby oddbod.rb friends oddfiles/09_friends.xml
 ruby oddbod.rb communities-members oddfiles/09_communities_memberships.xml
+ruby oddbod.rb files oddfiles/09_files.xml
 
 More information
 ================
