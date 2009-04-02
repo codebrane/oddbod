@@ -5,11 +5,13 @@ class GenericBod
   UUID_PERSON = UUID + "person/"
   UUID_COMMUNITY = UUID + "community/"
   UUID_BLOG = UUID + "blog/"
+  UUID_FILE = UUID + "file/"
   PERSON_CLASS = "person"
   COMMUNITY_CLASS = "community"
   BLOG_POST_CLASS = "blogpost"
   RELATIONSHIP_FRIEND_CLASS = "hasfriend"
   RELATIONSHIP_MEMBER_CLASS = "ismemberof"
+  FILE_CLASS = "file"
   
   TYPE_USER = "user"
   TYPE_PROFILE_USERS = "profile-users"
@@ -19,6 +21,7 @@ class GenericBod
   TYPE_USER_BLOGS = "user-blogs"
   TYPE_COMMUNITY_BLOGS = "community-blogs"
   TYPE_MEMBERSHIPS = "memberships"
+  TYPE_FILES = "files"
   
   def initialize(type)
     @odd_doc = REXML::Document.new()
