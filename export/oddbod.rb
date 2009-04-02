@@ -15,6 +15,7 @@ require 'icon/iconfactory'
 require 'community/communityfactory'
 require 'blog/blogfactory'
 require 'member/memberfactory'
+require 'file/filefactory'
 require 'generators/userbod'
 require 'generators/profilebod'
 require 'generators/friendbod'
@@ -22,6 +23,7 @@ require 'generators/iconbod'
 require 'generators/communitybod'
 require 'generators/blogbod'
 require 'generators/membershipbod'
+require 'generators/filebod'
 
 if (ARGV.length != 2)
   puts "Usage:"
@@ -122,6 +124,14 @@ if (mode == "communities-members")
   bod.odd
   bod.odd_file(output_file)
   puts "processed " + bod.how_many.to_s + " memberships"
+end
+
+if (mode == "files")
+  file_factory = FileFactory.new(db)
+  file_bod = FileBod.new(file_factory.load_files)
+  file_bod.odd
+  file_bod.odd_file(output_file)
+  puts "processed #{file_bod.how_many.to_s} files"
 end
 
 if (mode == "icons")
