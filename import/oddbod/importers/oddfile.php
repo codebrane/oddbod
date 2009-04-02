@@ -72,6 +72,7 @@ class ODDFile {
     	} // foreach ($metadata_elements as $metadata_element)
     	
     	if ($file_content != "") {
+    		if ($title == "") $title = $filename;
     		oddlog("CREATE: $filename");
     		$file = new ElggFile();
     		$file->setFilename("file/".$filename);
@@ -79,9 +80,6 @@ class ODDFile {
     		$file->setMimeType($mime_type);
     		$file->subtype="file";
     		$file->access_id = $access;
-	    	$file->open("write");
-	    	$file->write($file_content);
-	    	$file->close();
 	    	$file->title = $title;
 	    	$file->description = $description;
 	    	$file->owner_guid = $user->getGUID();
@@ -92,16 +90,20 @@ class ODDFile {
 	    		$file->container_guid = $user->getGUID();
 	    	}
 	    	$file->simpletype = get_general_file_type($mime_type);
+        $file->open("write");
+        $file->write($file_content);
+        $file->close();
 	    	$result = $file->save();
 	    	
 	    	if ($result) {
           if (substr_count($file->getMimeType(),'image/')) {
-			      $thumbnail = get_resized_image_from_existing_file($file->getFilenameOnFilestore(),60,60, true);
-			      $thumbsmall = get_resized_image_from_existing_file($file->getFilenameOnFilestore(),153,153, true);
-			      $thumblarge = get_resized_image_from_existing_file($file->getFilenameOnFilestore(),600,600, false);
+			      $thumbnail = get_resized_image_from_existing_file($file->getFilenameOnFilestore(), 60, 60, true);
+			      $thumbsmall = get_resized_image_from_existing_file($file->getFilenameOnFilestore(), 153, 153, true);
+			      $thumblarge = get_resized_image_from_existing_file($file->getFilenameOnFilestore(), 600, 600, false);
 			      
 			      if ($thumbnail) {
 			        $thumb = new ElggFile();
+			        $thumb->owner_guid = $user->getGUID();
 			        $thumb->setMimeType($mime_type);
 			        
 			        $thumb->setFilename("file/"."thumb".$filename);
