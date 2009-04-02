@@ -16,6 +16,8 @@ class ODDFile {
 	}
 	
 	public function import($odddoc) {
+		global $CONFIG;
+		
 		$xpath = new DOMXpath($odddoc);
     $entity_elements = $xpath->query("//entity");
     foreach ($entity_elements as $entity_element) {
@@ -71,7 +73,7 @@ class ODDFile {
     	
     	if ($file_content != "") {
     		oddlog("CREATE: $filename");
-    		$file = new FilePluginFile();
+    		$file = new ElggFile();
     		$file->setFilename("file/".$filename);
     		$file->originalfilename = $filename;
     		$file->setMimeType($mime_type);
@@ -82,11 +84,12 @@ class ODDFile {
 	    	$file->close();
 	    	$file->title = $title;
 	    	$file->description = $description;
-	    	if ($group == "") {
-	    		$file->container_guid = $user->getGUID();
+	    	$file->owner_guid = $user->getGUID();
+	    	if ($group != "") {
+	    		$file->container_guid = $group->getGUID();
 	    	}
 	    	else {
-	    		$file->container_guid = $group->getGUID();
+	    		$file->container_guid = $user->getGUID();
 	    	}
 	    	$file->simpletype = get_general_file_type($mime_type);
 	    	$result = $file->save();
@@ -101,32 +104,35 @@ class ODDFile {
 			        $thumb = new ElggFile();
 			        $thumb->setMimeType($mime_type);
 			        
-			        $thumb->setFilename($prefix."thumb".$filestorename);
+			        $thumb->setFilename("file/"."thumb".$filename);
 			        $thumb->open("write");
 			        $thumb->write($thumbnail);
 			        $thumb->close();
 			        
-			        $file->thumbnail = $prefix."thumb".$filestorename;
+			        $file->thumbnail = "file/"."thumb".$filename;
 			        
-			        $thumb->setFilename($prefix."smallthumb".$filestorename);
+			        $thumb->setFilename("file/"."smallthumb".$filename);
 			        $thumb->open("write");
 			        $thumb->write($thumbsmall);
 			        $thumb->close();
-			        $file->smallthumb = $prefix."smallthumb".$filestorename;
+			        $file->smallthumb = "file/"."smallthumb".$filename;
 			        
-			        $thumb->setFilename($prefix."largethumb".$filestorename);
+			        $thumb->setFilename("file/"."largethumb".$filename);
 			        $thumb->open("write");
 			        $thumb->write($thumblarge);
 			        $thumb->close();
-			        $file->largethumb = $prefix."largethumb".$filestorename;
+			        $file->largethumb = "file/"."largethumb".$filename;
 			      }
           }
           
           // Update the times on the file
           $db_link = get_db_link("write");
-          $query = "update elggentities set time_created = '$time', time_updated = '$time' where guid = '{$file->getGUID()}'";
+          $query = "update {$CONFIG->dbprefix}entities set time_created = '$time', time_updated = '$time' where guid = '{$file->getGUID()}'";
           execute_query($query, $db_link);
 	    	} // if ($result)
+	    	else {
+	    		oddlog("FILE ERROR: can't save file {$filename} for {$user->name}");
+	    	}
     	} // if ($file_content != "") {
     } // foreach ($entity_elements as $entity_element)
 	}
