@@ -47,7 +47,11 @@ gem install mime-types
 Usage
 =====
 First configure Oddbod. Open the file config.rb and change the various bits 'n bobs to suit
-your environment. Then run Oddbod in the following sequence with the suggested output files:
+your environment. Each aspect of Elgg 0.9 is exported as an ODD file except the files, which
+are too big to fit in one ODD file. In this case, the files are split across multiple ODD
+files in the specified directory. When importing the Elgg 0.9 files, just give the import
+plugin the path to the directory.
+Run Oddbod in the following sequence with the suggested output files or directory:
 
 ruby oddbod.rb users oddfiles/09_users.xml
 ruby oddbod.rb user-profiles oddfiles/09_profiles_users.xml
@@ -57,7 +61,7 @@ ruby oddbod.rb user-blogs oddfiles/09_blogs_users.xml
 ruby oddbod.rb community-blogs oddfiles/09_blogs_communities.xml
 ruby oddbod.rb friends oddfiles/09_friends.xml
 ruby oddbod.rb communities-members oddfiles/09_communities_memberships.xml
-ruby oddbod.rb files oddfiles/09_files.xml
+ruby oddbod.rb files oddfiles/files
 
 More information
 ================
