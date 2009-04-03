@@ -75,7 +75,7 @@ class ODDUser {
             $filehandler->owner_guid = $user->getGUID();
             
 						$filehandler->setFilename("profile/" . $user->username . "master.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($icon_data);
 						$filename = $filehandler->getFilenameOnFilestore();
 
