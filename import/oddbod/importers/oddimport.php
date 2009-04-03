@@ -21,7 +21,23 @@ class ODDImport {
   
   public function __construct($odd_file_path) {
    	$this->odddoc = new DOMDocument();
-    $this->odddoc->loadXML(utf8_encode(implode("", file($odd_file_path))));
+   	
+   	if (is_dir($odd_file_path)) {
+   		$dh = opendir($odd_file_path);
+   		while (false !== ($file = readdir($dh))) {
+   			if ($file != "." && $file != "..") {
+   				// Just need the first ODD file to find what types are in the directory
+   				$odd_file = $odd_file_path."/".$file;
+   				break;
+   			}
+   		}
+   		closedir($dh);
+   	}
+   	else {
+      $odd_file = $odd_file_path;
+   	}
+   	
+   	$this->odddoc->loadXML(utf8_encode(implode("", file($odd_file))));
     $last_error = libxml_get_last_error();
     if ($last_error) {
       throw new OddbodException($last_error->message);
@@ -61,7 +77,7 @@ class ODDImport {
         break;
         
       case "files":
-        $this->import_class = new ODDFile();
+        $this->import_class = new ODDFile($odd_file_path);
         break;
     }
   }
