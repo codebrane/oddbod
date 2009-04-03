@@ -129,8 +129,8 @@ end
 if (mode == "files")
   file_factory = FileFactory.new(db)
   file_bod = FileBod.new(file_factory.load_files)
-  file_bod.odd
-  file_bod.odd_file(output_file)
+  # The file bod handles its own odd_file as it uses a directory instead
+  file_bod.odd(output_file)
   puts "processed #{file_bod.how_many.to_s} files"
 end
 
