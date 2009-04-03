@@ -24,8 +24,13 @@ class GenericBod
   TYPE_FILES = "files"
   
   def initialize(type)
+    @type = type
+    init_new_bod_doc
+  end
+  
+  def init_new_bod_doc
     @odd_doc = REXML::Document.new()
-    @root_node = @odd_doc.add_element("odd", { "version" => "1.0", "type" => type })
+    @root_node = @odd_doc.add_element("odd", { "version" => "1.0", "type" => @type })
   end
   
   def odd_file(filename)
