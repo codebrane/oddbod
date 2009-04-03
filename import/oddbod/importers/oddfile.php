@@ -1,22 +1,56 @@
 <?php
 /**
- * This class is the importer for files
+ * This class is the importer for files. It's different from the other classes
+ * as it takes a directory path instead of a file path. This is due to the
+ * large content of the exported ODD files.
  * 
  * @author alistair
  *
  */
 class ODDFile {
+	/** The path to the directory containing the ODD files */
+	private $odd_file_path;
 	/** Mappings for access */
   private $file_access_mode;
 	
-	function __construct() {
+	function __construct($odd_file_path) {
+		$this->odd_file_path = $odd_file_path;
+		
     $file_access_mode = array("PUBLIC"    => ACCESS_PUBLIC,
                               "LOGGED_IN" => ACCESS_LOGGED_IN,
                               "PRIVATE"   => ACCESS_PRIVATE);
 	}
 	
-	public function import($odddoc) {
+	/**
+	 * This takes a directory path instead of a file path as the
+	 * exported files are too big to fit in one ODD file.
+	 * 
+	 * @param $odd_file_path Ignored. Uses $this->odd_file_path instead
+	 */
+	public function import($odd_file_path) {
+		$dh = opendir($this->odd_file_path);
+		while (false !== ($file = readdir($dh))) {
+			if ($file != "." && $file != "..") {
+				$this->process($this->odd_file_path."/".$file);
+			}
+		}
+		closedir($dh);
+	}
+	
+	/**
+	 * Imports files, one ODD at a time
+	 * 
+	 * @param $odddoc Full path to the ODD file
+	 */
+	public function process($odd_file) {
 		global $CONFIG;
+		
+		$odddoc = new DOMDocument();
+    $odddoc->loadXML(utf8_encode(implode("", file($odd_file))));
+    $last_error = libxml_get_last_error();
+    if ($last_error) {
+      throw new OddbodException($last_error->message);
+    }
 		
 		$xpath = new DOMXpath($odddoc);
     $entity_elements = $xpath->query("//entity");
