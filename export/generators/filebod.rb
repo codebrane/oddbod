@@ -1,4 +1,10 @@
 require "generators/genericbod"
+require 'fileutils'
+
+# This bod works a bit differently to the others as the exported
+# files can be huge, in the Gb range. This isn't so good for
+# importing, so the bod splits the exported files into 10 file
+# blocks, each one stored in an ODD file in the specified directory.
 
 class FileBod < GenericBod
   def initialize(files)
@@ -6,14 +12,24 @@ class FileBod < GenericBod
     @files = files
   end
   
-  def odd
-    @files.each do |file|
-      puts "file: #{file.original_name}"
-      @root_node.add_element("entity", {"uuid" => UUID_FILE + file.unique_id, "class" => FILE_CLASS})
-    end
+  def odd(output_dir)
+    FileUtils.makedirs(output_dir)
+    bod_count = 1
+    odd_file_count = 1
     
     @files.each do |file|
-      puts "file metadata: #{file.original_name} -> #{file.owner}"
+      if (bod_count > 20)
+        # Dump the current batch of exported files to ODD...
+        odd_file("#{output_dir}/09_files-#{odd_file_count}.xml")
+        # ...and start a new ODD file
+        init_new_bod_doc
+        bod_count = 1
+        odd_file_count += 1
+      end
+      
+      @root_node.add_element("entity", {"uuid" => UUID_FILE + file.unique_id, "class" => FILE_CLASS})
+      
+      puts "file: #{file.original_name} -> #{file.owner}"
       metadata = @root_node.add_element("metadata",
                                         { "uuid" => "", "entity_uuid" => UUID_FILE + file.unique_id,
                                           "name" => "owner" })
@@ -50,7 +66,12 @@ class FileBod < GenericBod
                                         { "uuid" => "", "entity_uuid" => UUID_FILE + file.unique_id,
                                           "name" => "content" })
       metadata.text = REXML::CData.new(file.content)
+      
+      bod_count += 1
     end
+    
+    # Dump the leftovers to ODD
+    odd_file("#{output_dir}/09_files-#{odd_file_count}.xml")
   end
   
   def how_many
