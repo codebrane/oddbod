@@ -86,23 +86,23 @@ class ODDUser {
 						$large = get_resized_image_from_existing_file($filename, 200, 200);
 
 						$filehandler->setFilename("profile/" . $user->username . "large.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($large);
 						$filehandler->close();
 						$filehandler->setFilename("profile/" . $user->username . "medium.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($medium);
 						$filehandler->close();
 						$filehandler->setFilename("profile/" . $user->username . "small.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($small);
 						$filehandler->close();
 						$filehandler->setFilename("profile/" . $user->username . "tiny.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($tiny);
 						$filehandler->close();
 						$filehandler->setFilename("profile/" . $user->username . "topbar.jpg");
-						$filehandler->open(ÓwriteÓ);
+						$filehandler->open("write");
 						$filehandler->write($topbar);
 						$filehandler->close();
             
