@@ -74,30 +74,37 @@ class ODDUser {
             $filehandler = new ElggFile();
             $filehandler->owner_guid = $user->getGUID();
             
-            $filehandler->setFilename("profile/" . $user->username . "large.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
-            $filehandler->setFilename("profile/" . $user->username . "medium.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
-            $filehandler->setFilename("profile/" . $user->username . "small.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
-            $filehandler->setFilename("profile/" . $user->username . "tiny.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
-            $filehandler->setFilename("profile/" . $user->username . "topbar.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
-            $filehandler->setFilename("profile/" . $user->username . "master.jpg");
-            $filehandler->open("write");
-            $filehandler->write($icon_data);
-            $filehandler->close();
+						$filehandler->setFilename("profile/" . $user->username . "master.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($icon_data);
+						$filename = $filehandler->getFilenameOnFilestore();
+
+						$topbar = get_resized_image_from_existing_file($filename, 16, 16, true);
+						$tiny = get_resized_image_from_existing_file($filename, 25, 25, true);
+						$small = get_resized_image_from_existing_file($filename, 40, 40, true);
+						$medium = get_resized_image_from_existing_file($filename, 100, 100, true);
+						$large = get_resized_image_from_existing_file($filename, 200, 200);
+
+						$filehandler->setFilename("profile/" . $user->username . "large.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($large);
+						$filehandler->close();
+						$filehandler->setFilename("profile/" . $user->username . "medium.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($medium);
+						$filehandler->close();
+						$filehandler->setFilename("profile/" . $user->username . "small.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($small);
+						$filehandler->close();
+						$filehandler->setFilename("profile/" . $user->username . "tiny.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($tiny);
+						$filehandler->close();
+						$filehandler->setFilename("profile/" . $user->username . "topbar.jpg");
+						$filehandler->open(ÓwriteÓ);
+						$filehandler->write($topbar);
+						$filehandler->close();
             
             $user->icontime = time();
           } // if ($icon_data != "")
