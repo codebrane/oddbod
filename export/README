@@ -41,6 +41,8 @@ You also need the appropriate database module for Ruby. Oddbod has been tested w
     you may or may not need to use sudo, depending how your mysql is installed.
   make
   make install
+Also, oddbod requires the ruby mime-types library. To install this do:
+gem install mime-types
 
 Usage
 =====
