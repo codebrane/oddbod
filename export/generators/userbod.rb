@@ -23,6 +23,11 @@ class UserBod < GenericBod
                                         { "uuid" => "", "entity_uuid" => UUID_PERSON + user.username,
                                           "name" => "username" })
       metadata.text = user.username
+      # Hashed password
+      metadata = @root_node.add_element("metadata",
+                                        { "uuid" => "", "entity_uuid" => UUID_PERSON + user.username,
+                                          "name" => "password" })
+      metadata.text = user.password
       # email
       metadata = @root_node.add_element("metadata",
                                         { "uuid" => "", "entity_uuid" => UUID_PERSON + user.username,
