@@ -1,12 +1,11 @@
 require 'utils'
 
 class User
-  attr_reader :ident, :username, :password, :email, :name, :icon_filename, :icon_data, :active, :user_alias, :admin
+  attr_reader :ident, :username, :email, :name, :icon_filename, :icon_data, :active, :user_alias, :admin
   
-  def initialize(ident, username, password, email, name, icon_filename, icon_data, active, user_alias, admin)
+  def initialize(ident, username, email, name, icon_filename, icon_data, active, user_alias, admin)
     @ident = ident
     @username = username
-    @password = password
     @email = email
     @name = name
     @icon_filename = icon_filename
