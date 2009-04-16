@@ -8,6 +8,7 @@ class UserFactory
   # user
   IDENT = 0
   USERNAME = 1
+  PASSWORD = 2
   EMAIL = 3
   NAME = 4
   ICON = 5
@@ -53,6 +54,7 @@ class UserFactory
       
       @users[@users.length] = User.new(user[IDENT],
                                        user[USERNAME],
+                                       user[PASSWORD],
                                        user[EMAIL],
                                        user[NAME],
                                        icon_filename,
