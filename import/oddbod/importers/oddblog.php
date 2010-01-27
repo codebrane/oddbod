@@ -81,12 +81,7 @@ class ODDBlog {
 		    if ($valid) {
   	      if ($body != "") {
             $blog = new ElggObject();
-            if ($this->mode == MODE_COMMUNITY_BLOGS) {
-              $blog->subtype = "groupforumtopic";
-            }
-            else {
-              $blog->subtype = "blog";
-            }
+            $blog->subtype = "blog";
             $owner = get_user_by_username($username);
             $blog->owner_guid = $owner->getGUID();
             
@@ -110,12 +105,7 @@ class ODDBlog {
             
             $blog->title = $title;
             $blog->save();
-            if ($this->mode == MODE_COMMUNITY_BLOGS) {
-              $blog->annotate('group_topic_post', $body, ACCESS_PUBLIC, $owner->getGUID());
-            }
-            else {
-              $blog->description = $body;
-            }
+            $blog->description = $body;
             if ($tags != "") {
               $blog->tags = string_to_tag_array($tags);
             }
@@ -124,13 +114,6 @@ class ODDBlog {
 
             // Have to alter the db directly to change the posted time
             $db_link = get_db_link("write");
-            if ($this->mode == MODE_COMMUNITY_BLOGS) {
-            	// This changes the date/time on the display in the community
-              $query  = "update {$CONFIG->dbprefix}annotations ";
-              $query .= "set time_created = '{$time}' ";
-              $query .= "where entity_guid = '{$blog->getGUID()}'";
-              execute_query($query, $db_link);
-            }
 
             // This changes the date/time on the main blog
 						$query  = "update {$CONFIG->dbprefix}entities ";
@@ -151,12 +134,7 @@ class ODDBlog {
             			continue;
             		}
             		oddlog("comment from ".$comment_owner->getGUID(). " -> ".$parts[1]);
-            		if ($this->mode == MODE_COMMUNITY_BLOGS) {
-            			$comment_type = "group_topic_post";
-            		}
-            		else {
-            			$comment_type = "generic_comment";
-            		}
+            		$comment_type = "generic_comment";
             		$blog->annotate($comment_type, $comment_text_marked, $blog->access_id, $comment_owner->getGUID());
             		
             		// Find the comment in the database to update its time
