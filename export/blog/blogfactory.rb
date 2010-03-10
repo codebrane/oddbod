@@ -66,7 +66,7 @@ class BlogFactory
         @blogs[@blogs.length-1].add_post(post)
         
         # ...and the tags for the post...
-        post_tags = @db.query("select * from " + @db.table_prefix + "tags where ref = '" + blog_post[POST_IDENT] + "'")
+        post_tags = @db.query("select * from #{@db.table_prefix}tags where ref = '#{blog_post[POST_IDENT]}' and tagtype = 'weblog'")
         post_tags.each do |post_tag|
           post.add_tag(BlogTag.new(post_tag[TAG_TAG], post_tag[TAG_ACCESS]))
         end
