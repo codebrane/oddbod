@@ -11,7 +11,7 @@
 	 */
 	 
 	global $CONFIG;
-	$action = $vars['url']."action/oddbod/import"
+	$action = elgg_add_action_tokens_to_url($vars['url']."action/oddbod/import");
 ?>
 
 <div>
