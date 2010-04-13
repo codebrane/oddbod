@@ -24,13 +24,18 @@ class UserFactory
   FLAG_NAME = 2
   FLAG_VALUE = 3
   
-  def initialize(db)
+  def initialize(db, username)
     @db = db
+    @username = username
     @users = Array.new
   end
   
   def load_users
-    users = @db.query("select * from " + @db.table_prefix + "users where user_type = '" + DB::USER_TYPE + "'")
+    if (@username != nil)
+      users = @db.query("select * from #{@db.table_prefix}users where user_type = '#{DB::USER_TYPE}' and username='#{@username}'")
+    else
+      users = @db.query("select * from #{@db.table_prefix}users where user_type = '#{DB::USER_TYPE}'")
+    end
     users.each do |user|
       icon_description = ""
       icon_filename = ""
