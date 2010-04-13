@@ -16,9 +16,9 @@ class ODDFile {
 	function __construct($odd_file_path) {
 		$this->odd_file_path = $odd_file_path;
 		
-    $file_access_mode = array("PUBLIC"    => ACCESS_PUBLIC,
-                              "LOGGED_IN" => ACCESS_LOGGED_IN,
-                              "PRIVATE"   => ACCESS_PRIVATE);
+    $this->file_access_mode = array("PUBLIC"    => ACCESS_PUBLIC,
+		                                "LOGGED_IN" => ACCESS_LOGGED_IN,
+		                                "PRIVATE"   => ACCESS_PRIVATE);
 	}
 	
 	/**
