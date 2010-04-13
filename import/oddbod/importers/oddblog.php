@@ -18,9 +18,9 @@ class ODDBlog {
   
   public function __construct($mode) {
     $this->mode = $mode;
-    $blog_access_mode = array("PUBLIC"    => ACCESS_PUBLIC,
-                              "LOGGED_IN" => ACCESS_LOGGED_IN,
-                              "PRIVATE"   => ACCESS_PRIVATE);
+    $this->blog_access_mode = array("PUBLIC"    => ACCESS_PUBLIC,
+			                               "LOGGED_IN" => ACCESS_LOGGED_IN,
+			                               "PRIVATE"   => ACCESS_PRIVATE);
   }
   
   public function import($odddoc) {
