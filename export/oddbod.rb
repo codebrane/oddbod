@@ -25,18 +25,23 @@ require 'generators/blogbod'
 require 'generators/membershipbod'
 require 'generators/filebod'
 
-if (ARGV.length != 2)
+if (ARGV.length < 2)
   puts "Usage:"
-  puts "ruby oddbod.rb EXPORT_MODE OUTPUT_FILE"
+  puts "ruby oddbod.rb EXPORT_MODE OUTPUT_FILE [USERNAME]"
   puts "EXPORT_MODE = users|communities|friends|user-profiles|community-profiles"
   puts "e.g."
   puts "export all users: ruby oddbod.rb users oddfiles/09_users.xml"
+  puts "export one user: ruby oddbod.rb users oddfiles/09_users.xml joebloggs"
   puts "export all user profiles: ruby oddbod.rb user-profiles oddfiles/09_user_profiles.xml"
+  puts "export one user profile: ruby oddbod.rb user-profiles oddfiles/09_user_profiles.xml joebloggs"
   exit
 end
 
 mode = ARGV[0]
 output_file = ARGV[1]
+if (ARGV[2] != nil)
+  username = ARGV[2]
+end
 
 # Connect to the database
 puts "connecting..."
@@ -44,7 +49,7 @@ db = DB.new(Config::DB_HOST, Config::DB_USER, Config::DB_PASS, Config::DB_NAME, 
 
 # Load up all the users from the database
 puts "loading users..."
-users = UserFactory.new(db)
+users = UserFactory.new(db, username)
 elgg_users = users.load_users
 
 # Load up all the communities from the database
