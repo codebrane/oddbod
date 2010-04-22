@@ -19,9 +19,12 @@ class ODDMembership {
     	if (($user) && ($group)) {
     		if ($group->name == get_username_from_entity_uuid($relationship_element->getAttribute("uuid_two"))) {
     			// Add the user to the community or group
-    			$group->join($user);
-    			$group->save();
-    			oddlog($group->name." -> ".$user->username);
+    			if ($group->join($user)) {
+    			  oddlog($group->name." -> ".$user->username);
+          }
+          else {
+	          oddlog("can't add ".$user->username." to ".$group->name);
+          }
     		}
     	}
     }
