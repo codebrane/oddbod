@@ -75,8 +75,14 @@ class ODDCommunity {
             $comm->name = $name;
             $comm->membership = ACCESS_PUBLIC;
             $comm->owner_guid = $owner->getGUID();
-            $comm->container_guid = $owner->getGUID();
+            $comm->access_id = ACCESS_PUBLIC;
             $comm->save();
+
+            $comm->blog_enable = "yes";
+            $comm->forum_enable = "yes";
+            $comm->files_enable = "yes";
+            $comm->save();
+
             $comm->join($owner);
           }
           else {
